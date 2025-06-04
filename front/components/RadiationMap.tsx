@@ -27,18 +27,34 @@ interface RadiationMapProps {
     annualRadiation: number | null;
 }
 
-const MapUpdater = ({ position }: { position: [number, number] | null }) => {
+const MapUpdater = ({ position, polygon }: { 
+    position: [number, number] | null;
+    polygon: [number, number][] | null;
+}) => {
     const map = useMap();
-
+    
     React.useEffect(() => {
-        if (position) {
-            // Ajuste o zoom para um valor mais adequado (12 pode estar muito distante)
-            map.flyTo(position, 14, {  // Aumentei para zoom 14
-                duration: 1,
-                easeLinearity: 0.25
-            });
+        if (!map || !position) return;
+        
+        try {
+            if (polygon && polygon.length > 0) {
+                const bounds = L.latLngBounds([
+                    position,
+                    ...polygon
+                ]);
+                map.flyToBounds(bounds, {
+                    padding: [50, 50],
+                    duration: 1
+                });
+            } else {
+                map.flyTo(position, 14, {
+                    duration: 1
+                });
+            }
+        } catch (error) {
+            console.error("Erro no flyTo:", error);
         }
-    }, [position, map]);
+    }, [position, polygon, map]);
 
     return null;
 };
