@@ -14,7 +14,7 @@ Aplicação web para visualização interativa de dados de irradiação solar em
   - [Frontend](#frontend)
 - [Estrutura da API](#-estrutura-da-api)
 - [Componentes Principais](#-componentes-principais)
-- [Licença](#-licença)
+
 
 ## 🎯 Objetivos do Projeto
 
